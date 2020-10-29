@@ -1,0 +1,44 @@
+---
+- name: Basic GCE config playbook
+  hosts: all
+  tasks:
+    - name: Create a file called '/tmp/testfile.txt' with the content 'hello world'.
+      copy:
+        content: hello worldn
+        dest: /tmp/testfile.txt
+    - name: "Installing Docker Prerequisite packages"
+      yum:
+        name:  ['yum-utils', 'device-mapper-persistent-data', 'lvm2']
+        state: latest
+      become: true
+    - name: "Configuring docker-ce repo"
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+        mode: 0644
+      become: true
+    - name: " Installing Docker latest version"
+      yum:
+        name: docker-ce
+        state: present
+      become: true
+    - name: " Starting and Enabling Docker service"
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      become: true
+    - name: " Install epel release"
+      yum:
+        name: ['epel-release']
+        state: latest
+      become: true
+    - name: " Install python and pip"
+      yum:
+        name:  ['python3', 'python3-pip']
+        state: latest
+      become: true
+    - name: " install docker-py"
+      pip:
+        name: docker-py
+      become: true

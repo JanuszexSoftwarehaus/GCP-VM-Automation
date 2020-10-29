@@ -1,0 +1,17 @@
+---
+- name: Basic GCE config playbook
+  hosts: all
+  tasks:
+  - name: launch postgres container
+    docker_container:
+      name: postgres_db
+      image: postgres:13.0-alpine
+      state: started
+      env:
+        POSTGRES_PASSWORD=password
+        POSTGRES_DB=sample_db
+      volumes: 
+        /my/own/datadir:/var/lib/postgresql/data
+      ports:
+      - "9372:5432"
+    become: true

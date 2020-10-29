@@ -22,6 +22,9 @@ resource "google_compute_instance" "vm_instance" {
       // Ephemeral IP
     }
   }
+  metadata = {
+    ssh-keys = "januszex-tf:${file("id_rsa.pub")}"
+  }
 }
 
 output "ip" {
