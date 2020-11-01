@@ -7,11 +7,14 @@
       name: postgres_db
       image: postgres:13.0-alpine
       state: started
+      restart: yes
+      restart_policy: always
       env:
-        POSTGRES_PASSWORD=password
+        POSTGRES_USER=test_postgres_user
+        POSTGRES_PASSWORD=changeme
         POSTGRES_DB=sample_db
       volumes: 
-        /my/own/datadir:/var/lib/postgresql/data
+        /pgdata:/var/lib/postgresql/data
       ports:
       - "9372:5432"
     become: true

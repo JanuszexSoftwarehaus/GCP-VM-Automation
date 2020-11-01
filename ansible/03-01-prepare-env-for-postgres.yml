@@ -1,0 +1,9 @@
+---
+- name: Prepare env for postgres
+  hosts: all
+  tasks:
+  - name: clear datadir
+    become: true
+    file:
+      state: absent
+      path: "/pgdata"
